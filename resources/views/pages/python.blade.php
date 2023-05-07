@@ -32,10 +32,26 @@
                 <form action="{{route('posts.python')}}" method="POST">
                     @csrf
                     <textarea name="code" id="" cols="30" rows="10">
-                        a=int(input())
-b=int(input())
-c=a+b
-print(c)
+
+                        {{-- a=int(input())
+                        b=int(input())
+                        c=a+b
+                        print(c) --}}
+
+                        @if($pl == 'code')
+                            a=int(input())
+                            b=int(input())
+                            c=a+b
+                            print(c)
+                        @else
+#include <iostream>
+                        using namespace std;
+
+                        int main() {
+                        cout << "Hello World!";
+                        return 0;
+                            }
+                        @endif
                     </textarea>
                     <select name="pl">
                         <option value="py3">Python 3</option>

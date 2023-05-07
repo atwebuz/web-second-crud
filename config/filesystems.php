@@ -34,6 +34,11 @@ return [
             'root' => storage_path('app/tests'),
             'throw' => false,
         ],
+        'code' => [
+            'driver' => 'local',
+            'root' => storage_path('app/code'),
+            'throw' => false,
+        ], 
         'codes' => [
             'driver' => 'local',
             'root' => storage_path('app/codes'),

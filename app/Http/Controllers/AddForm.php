@@ -9,10 +9,7 @@ use Process;
 class AddForm extends Controller
 {
 
-    public function python()
-    {
-        return view('pages.python');
-    }
+  
     
     public function result(Request $request)
     {
@@ -34,8 +31,42 @@ class AddForm extends Controller
                 $results[] = $result->errorOutput();
             }
             return $results;
-        } else if ($pl === 'cpp') {
-            Storage::put("code/1.cpp", $code);
-        }
+        } else 
+        // if ($pl === 'cpp') {
+        //     Storage::put("code/1.cpp", $code);
+        // }
+
+        if ($pl === 'cpp') {
+            // dd('c++');
+            $fn = "q.cpp";
+            $fnrun = "a.out";
+            Storage::disk('code')->put("" . $fn , $code);
+            $p = Storage::disk('tests')->path('');
+            $c = Storage::disk('code')->path('');
+            for ($i = 1; $i <= 3; $i++) {
+                Storage::copy("tests/2/in{$i}.txt", "code/in{$i}.txt");
+            }
+            $results = [];
+            // $result = Process::path($c)->run("g++ $fn");
+            $result = Process::path($c)->run("g++ {$fn}")->command();
+            dd($result);
+            for ($i = 1; $i <= 3; $i++) {
+                $result = Process::path($c)->run("./$fnrun < in{$i}.txt > out{$i}.txt");
+                // /a.out < in.txt > out.txt
+
+                $results[] = $result->errorOutput();
+            }
+            return $results;
+        } 
+        // else if ($pl === 'py3') {
+        //     Storage::put("code/1.py", $code);
+        // }
     }
+
+    public function python()
+    {
+        return view('pages.python')->with('pl');
+    }
+
+
 }
